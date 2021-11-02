@@ -2,23 +2,23 @@
 
 #include <string>
 
-namespace bingo {
+namespace fractions {
 
-    /**  Language codes to be used with the Bingo class */
+    /**  Language codes to be used with the Fractions class */
     enum class LanguageCode { EN, DE, ES, FR };
 
     /**
      * @brief A class for saying hello in multiple languages
      */
-    class Bingo {
+    class Fractions {
         std::string name;
 
       public:
         /**
-         * @brief Creates a new bingo
+         * @brief Creates a new fractions
          * @param name the name to greet
          */
-        Bingo(std::string name);
+        Fractions(std::string name);
 
         /**
          * @brief Creates a localized string containing the greeting
@@ -28,4 +28,4 @@ namespace bingo {
         std::string greet(LanguageCode lang = LanguageCode::EN) const;
     };
 
-}  // namespace bingo
+}  // namespace fractions

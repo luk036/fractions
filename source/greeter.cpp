@@ -1,11 +1,11 @@
-#include <bingo/greeter.h>
+#include <fractions/greeter.h>
 #include <fmt/format.h>
 
-using namespace bingo;
+using namespace fractions;
 
-Bingo::Bingo(std::string _name) : name(std::move(_name)) {}
+Fractions::Fractions(std::string _name) : name(std::move(_name)) {}
 
-std::string Bingo::greet(LanguageCode lang) const {
+std::string Fractions::greet(LanguageCode lang) const {
     switch (lang) {
         default:
         case LanguageCode::EN:
