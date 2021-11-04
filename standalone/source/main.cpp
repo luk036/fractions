@@ -46,8 +46,8 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    fractions::Fractions fractions(name);
-    std::cout << fractions.greet(langIt->second) << std::endl;
+    // fractions::Fractions fractions(name);
+    // std::cout << fractions.greet(langIt->second) << std::endl;
 
     return 0;
 }

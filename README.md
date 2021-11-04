@@ -18,6 +18,8 @@ This template is the result of learnings from many previous projects and should 
 
 ## Features
 
+- Header-only.
+- We don't check divide-by-zero. We just let it possible.
 - [Modern CMake practices](https://pabloariasal.github.io/2018/02/19/its-time-to-do-cmake-right/)
 - Suited for single header libraries and projects of any scale
 - Clean separation of library and executable code
