@@ -32,11 +32,11 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2.1.1
         with:
           auto-update-conda: ture
-
+          
       - name: Install dependent software
         run: |
           conda info
-          conda install -c conda-forge cmake boost
+          conda install -c conda-forge cmake boost=1.74
 
       - name: configure
         run: cmake -S. -Bbuild

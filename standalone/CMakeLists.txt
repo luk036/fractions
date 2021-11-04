@@ -16,4 +16,4 @@ set_target_properties(
   ${PROJECT_NAME}Standalone PROPERTIES CXX_STANDARD 17 OUTPUT_NAME ${PROJECT_NAME}
 )
 
-target_link_libraries(${PROJECT_NAME}Standalone cxxopts ${PROJECT_NAME}::${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME}Standalone cxxopts ${PROJECT_NAME}::${PROJECT_NAME} ${SPECIFIC_LIBS})
