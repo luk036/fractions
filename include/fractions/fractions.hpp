@@ -1,7 +1,6 @@
 // -*- coding: utf-16 -*-
 #pragma once
 
-// #include <boost/operators.hpp>
 // #include <cmath>
 // #include <compare>
 #include <numeric>

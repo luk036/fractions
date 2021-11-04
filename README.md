@@ -1,7 +1,6 @@
 [![Actions Status](https://github.com/luk036/fractions/workflows/MacOS/badge.svg)](https://github.com/luk036/fractions/actions)
 [![Actions Status](https://github.com/luk036/fractions/workflows/Windows/badge.svg)](https://github.com/luk036/fractions/actions)
 [![Actions Status](https://github.com/luk036/fractions/workflows/Ubuntu/badge.svg)](https://github.com/luk036/fractions/actions)
-[![Actions Status](https://github.com/luk036/fractions/workflows/Style/badge.svg)](https://github.com/luk036/fractions/actions)
 [![Actions Status](https://github.com/luk036/fractions/workflows/Install/badge.svg)](https://github.com/luk036/fractions/actions)
 [![codecov](https://codecov.io/gh/luk036/fractions/branch/master/graph/badge.svg)](https://codecov.io/gh/luk036/fractions)
 
@@ -27,7 +26,6 @@ This template is the result of learnings from many previous projects and should 
 - Continuous integration via [GitHub Actions](https://help.github.com/en/actions/)
 - Code coverage via [codecov](https://codecov.io)
 - Code formatting enforced by [clang-format](https://clang.llvm.org/docs/ClangFormat.html) and [cmake-format](https://github.com/cheshirekow/cmake_format) via [Format.cmake](https://github.com/TheLartians/Format.cmake)
-- Reproducible dependency management via [CPM.cmake](https://github.com/TheLartians/CPM.cmake)
 - Installable target with automatic versioning information and header generation via [PackageProject.cmake](https://github.com/TheLartians/PackageProject.cmake)
 - Automatic [documentation](https://thelartians.github.io/ModernCppStarter) and deployment with [Doxygen](https://www.doxygen.nl) and [GitHub Pages](https://pages.github.com)
 - Support for [sanitizer tools, and more](#additional-tools)
@@ -50,16 +48,6 @@ Feel free to replace the License with one suited for your project.
 
 To cleanly separate the library and subproject code, the outer `CMakeList.txt` only defines the library itself while the tests and other subprojects are self-contained in their own directories. 
 During development it is usually convenient to [build all subprojects at once](#build-everything-at-once).
-
-### Build and run the standalone target
-
-Use the following command to build and run the executable target.
-
-```bash
-cmake -S. -B build
-cmake --build build
-./build/standalone/Fractions --help
-```
 
 ### Build and run test suite
 
@@ -93,20 +81,6 @@ cmake --build build --target fix-format
 ```
 
 See [Format.cmake](https://github.com/TheLartians/Format.cmake) for details.
-
-### Build the documentation
-
-The documentation is automatically built and [published](https://luk036.github.io/fractions) whenever a [GitHub Release](https://help.github.com/en/github/administering-a-repository/managing-releases-in-a-repository) is created.
-To manually build documentation, call the following command.
-
-```bash
-cmake -S. -B build
-cmake --build build --target GenerateDocs
-# view the docs
-open build/documentation/doxygen/html/index.html
-```
-
-To build the documentation locally, you will need Doxygen, jinja2 and Pygments on installed your system.
 
 ### Additional tools
 
