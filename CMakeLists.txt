@@ -91,6 +91,8 @@ packageProject(
 )
 
 if(NOT INSTALL_ONLY)
+  include(specific.cmake)
+
   add_subdirectory(test)
   add_subdirectory(standalone)
   add_subdirectory(documentation)
