@@ -3,12 +3,10 @@
  */
 #include <doctest/doctest.h>
 
-#include <boost/multiprecision/cpp_int.hpp>
-#include <ostream>
 #include <fractions/fractions.hpp>
+#include <ostream>
 
 using namespace fun;
-using boost::multiprecision::cpp_int;
 
 // auto operator<=>(const cpp_int& a, const cpp_int& b) -> std::strong_ordering {
 //     if (operator<(a, b)) return std::strong_ordering::less;
@@ -17,17 +15,17 @@ using boost::multiprecision::cpp_int;
 // }
 
 TEST_CASE("Fraction") {
-    const auto a = cpp_int{3};
-    const auto b = cpp_int{4};
-    const auto c = cpp_int{5};
-    const auto d = cpp_int{6};
+    const auto a = 3U;
+    const auto b = 4U;
+    const auto c = 5U;
+    const auto d = 6U;
 
     const auto p = Fraction{a, b};
     const auto q = Fraction{c, d};
 
-    CHECK(p == Fraction<cpp_int>(30, 40));
-    CHECK(p + q == Fraction<cpp_int>(19, 12));
-    CHECK(p - q == Fraction<cpp_int>(-1, 12));
+    CHECK(p == Fraction(30U, 40U));
+    CHECK(p + q == Fraction(19U, 12U));
+    CHECK((p - q) + q == p);
     // CHECK(p != 0);
 }
 
