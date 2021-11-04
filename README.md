@@ -1,15 +1,15 @@
-[![Actions Status](https://github.com/luk036/fractions-cpp/workflows/MacOS/badge.svg)](https://github.com/luk036/fractions-cpp/actions)
-[![Actions Status](https://github.com/luk036/fractions-cpp/workflows/Windows/badge.svg)](https://github.com/luk036/fractions-cpp/actions)
-[![Actions Status](https://github.com/luk036/fractions-cpp/workflows/Ubuntu/badge.svg)](https://github.com/luk036/fractions-cpp/actions)
-[![Actions Status](https://github.com/luk036/fractions-cpp/workflows/Style/badge.svg)](https://github.com/luk036/fractions-cpp/actions)
-[![Actions Status](https://github.com/luk036/fractions-cpp/workflows/Install/badge.svg)](https://github.com/luk036/fractions-cpp/actions)
-[![codecov](https://codecov.io/gh/luk036/fractions-cpp/branch/master/graph/badge.svg)](https://codecov.io/gh/luk036/fractions-cpp)
+[![Actions Status](https://github.com/luk036/fractions/workflows/MacOS/badge.svg)](https://github.com/luk036/fractions/actions)
+[![Actions Status](https://github.com/luk036/fractions/workflows/Windows/badge.svg)](https://github.com/luk036/fractions/actions)
+[![Actions Status](https://github.com/luk036/fractions/workflows/Ubuntu/badge.svg)](https://github.com/luk036/fractions/actions)
+[![Actions Status](https://github.com/luk036/fractions/workflows/Style/badge.svg)](https://github.com/luk036/fractions/actions)
+[![Actions Status](https://github.com/luk036/fractions/workflows/Install/badge.svg)](https://github.com/luk036/fractions/actions)
+[![codecov](https://codecov.io/gh/luk036/fractions/branch/master/graph/badge.svg)](https://codecov.io/gh/luk036/fractions)
 
 <p align="center">
   <img src="https://repository-images.githubusercontent.com/254842585/4dfa7580-7ffb-11ea-99d0-46b8fe2f4170" height="175" width="auto" />
 </p>
 
-# fractions-cpp (modified from ModernCppStarter)
+# fractions (modified from ModernCppStarter)
 
 (**Note**: this project has been modified from the original ModernCppStarter so that it is more **vscode-friendly**.)
 
@@ -94,7 +94,7 @@ See [Format.cmake](https://github.com/TheLartians/Format.cmake) for details.
 
 ### Build the documentation
 
-The documentation is automatically built and [published](https://luk036.github.io/fractions-cpp) whenever a [GitHub Release](https://help.github.com/en/github/administering-a-repository/managing-releases-in-a-repository) is created.
+The documentation is automatically built and [published](https://luk036.github.io/fractions) whenever a [GitHub Release](https://help.github.com/en/github/administering-a-repository/managing-releases-in-a-repository) is created.
 To manually build documentation, call the following command.
 
 ```bash
