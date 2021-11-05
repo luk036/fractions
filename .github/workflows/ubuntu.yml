@@ -3,12 +3,10 @@ name: Ubuntu
 on:
   push:
     branches:
-      - master
-      - main
+      - develop
   pull_request:
     branches:
-      - master
-      - main
+      - develop
 
 env:
   CTEST_OUTPUT_ON_FAILURE: 1
@@ -29,7 +27,8 @@ jobs:
 
       - name: Before Install
         run: |
-          sudo apt-get install lcov
+          sudo apt-get install g++-11 lcov
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 90 
 
       - name: configure
         run: cmake -S. -Bbuild -DENABLE_TEST_COVERAGE=1 -DCMAKE_BUILD_TYPE=Debug
@@ -47,4 +46,4 @@ jobs:
           lcov --directory . --capture --output-file coverage.info # capture coverage info
           lcov --remove coverage.info '/usr/*' 'standalone/*' 'bench/*' --output-file coverage.info # filter out system
           lcov --list coverage.info #debug info
-          bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
+          # bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"

@@ -2,12 +2,39 @@
 #pragma once
 
 // #include <cmath>
-// #include <compare>
+#include <compare>
 #include <numeric>
 #include <type_traits>
 #include <utility>
 
 // #include "common_concepts.h"
+
+template<typename T, typename U>
+auto threeWayCompare(const T& lhs, const U& rhs){
+    if constexpr(std::three_way_comparable_with<T,U>) {
+        return lhs <=> rhs;
+    }
+    else{
+        if(lhs < rhs){
+            return std::strong_ordering::less;
+        }
+        if(lhs> rhs){
+            return std::strong_ordering::greater;
+        }
+        if(!(lhs < rhs) && !(lhs > rhs)){
+            return std::strong_ordering::equivalent;
+        }
+
+        return std::strong_ordering::equal;   
+    } 
+}
+
+
+template<typename T, typename U=T>
+using threeWayCompareCategory = 
+    decltype(threeWayCompare(std::declval<const T&>(), 
+                             std::declval<const U&>()));
+
 
 namespace fun {
 
@@ -197,22 +224,22 @@ namespace fun {
         }
 
         /**
-         * @brief Less than
+         * @brief Equal to
          *
          * @param[in] lhs
          * @param[in] rhs
          * @return true
          * @return false
          */
-        constexpr auto operator<(const Z& other) const -> bool {
+        constexpr auto operator<=>(const Z& other) const -> threeWayCompareCategory<Z> {
             if (this->_den == Z(1) || other == Z(0)) {
-                return this->_num < other;
+                return threeWayCompare(this->_num, other);
             }
             auto lhs{*this};
             auto rhs{other};
             std::swap(lhs._den, rhs);
             lhs.normalize2();
-            return lhs._num < lhs._den * rhs;
+            return threeWayCompare(lhs._num, lhs._den * rhs);
         }
 
         /**
@@ -223,15 +250,15 @@ namespace fun {
          * @return true
          * @return false
          */
-        friend constexpr auto operator<(const Z& lhs, const Fraction& rhs) -> bool {
+        friend constexpr auto operator<=>(const Z& lhs, const Fraction& rhs) -> threeWayCompareCategory<Z> {
             if (rhs._den == Z(1) || lhs == Z(0)) {
-                return lhs < rhs._num;
+                return threeWayCompare(lhs, rhs._num);
             }
             auto lhs2{lhs};
             auto rhs2{rhs};
             std::swap(rhs2._den, lhs2);
             rhs2.normalize2();
-            return rhs2._den * lhs2 < rhs2._num;
+            return threeWayCompare(rhs2._den * lhs2, rhs2._num);
         }
 
         /**
@@ -267,122 +294,23 @@ namespace fun {
         }
 
         /**
-         * @brief Less than
+         * @brief Equal to
          *
          * @param[in] lhs
          * @param[in] rhs
          * @return true
          * @return false
          */
-        constexpr auto operator<(const Fraction& other) const -> bool {
+        constexpr auto operator<=>(const Fraction& other) const -> threeWayCompareCategory<Z> {
             if (this->_den == other._den) {
-                return this->_num < other._num;
+                return threeWayCompare(this->_num, other._num);
             }
             auto lhs{*this};
             auto rhs{other};
             std::swap(lhs._den, rhs._num);
             lhs.normalize2();
             rhs.normalize2();
-            return lhs._num * rhs._den < lhs._den * rhs._num;
-        }
-
-        /**
-         * @brief
-         *
-         * @param[in] other
-         * @return true
-         * @return false
-         */
-        constexpr auto operator!=(const Fraction& other) const -> bool { return !(*this == other); }
-
-        /**
-         * @brief Greater than
-         *
-         * @param[in] other
-         * @return true
-         * @return false
-         */
-        constexpr auto operator>(const Fraction& other) const -> bool { return other < *this; }
-
-        /**
-         * @brief Greater than or euqal to
-         *
-         * @param[in] other
-         * @return true
-         * @return false
-         */
-        constexpr auto operator>=(const Fraction& other) const -> bool { return !(*this < other); }
-
-        /**
-         * @brief Less than or equal to
-         *
-         * @param[in] other
-         * @return true
-         * @return false
-         */
-        constexpr auto operator<=(const Fraction& other) const -> bool { return !(other < *this); }
-
-        /**
-         * @brief Greater than
-         *
-         * @param[in] other
-         * @return true
-         * @return false
-         */
-        constexpr auto operator>(const Z& other) const -> bool { return other < *this; }
-
-        /**
-         * @brief Less than or equal to
-         *
-         * @param[in] other
-         * @return true
-         * @return false
-         */
-        constexpr auto operator<=(const Z& other) const -> bool { return !(other < *this); }
-
-        /**
-         * @brief Greater than or equal to
-         *
-         * @param[in] other
-         * @return true
-         * @return false
-         */
-        constexpr auto operator>=(const Z& other) const -> bool { return !(*this < other); }
-
-        /**
-         * @brief Greater than
-         *
-         * @param[in] lhs
-         * @param[in] rhs
-         * @return true
-         * @return false
-         */
-        friend constexpr auto operator>(const Z& lhs, const Fraction& rhs) -> bool {
-            return rhs < lhs;
-        }
-
-        /**
-         * @brief Less than or equal to
-         *
-         * @param[in] lhs
-         * @param[in] rhs
-         * @return true
-         * @return false
-         */
-        friend constexpr auto operator<=(const Z& lhs, const Fraction& rhs) -> bool {
-            return !(rhs < lhs);
-        }
-
-        /**
-         * @brief Greater than or euqal to
-         *
-         * @param[in] lhs
-         * @param[in] rhs
-         * @return true
-         * @return false
-         */
-        friend constexpr auto operator>=(const Z& lhs, const Fraction& rhs) -> bool {
-            return !(lhs < rhs);
+            return threeWayCompare(lhs._num * rhs._den, lhs._den * rhs._num);
         }
 
         ///@}

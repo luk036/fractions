@@ -36,6 +36,12 @@ TEST_CASE("Fraction Special Cases") {
     const auto zero = Fraction{0, 1};
 
     CHECK(-inf < zero);
+    CHECK(zero >= -inf);
+    CHECK(-inf < 0);
+    CHECK(0 >= -inf);
+    CHECK(-inf != zero);
+    CHECK(zero != -inf);
+
     CHECK(zero < inf);
     CHECK(-inf < p);
     CHECK(p < inf);
