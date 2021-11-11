@@ -9,32 +9,26 @@
 
 // #include "common_concepts.h"
 
-template<typename T, typename U>
-auto threeWayCompare(const T& lhs, const U& rhs){
-    if constexpr(std::three_way_comparable_with<T,U>) {
+template <typename T, typename U> auto threeWayCompare(const T& lhs, const U& rhs) {
+    if constexpr (std::three_way_comparable_with<T, U>) {
         return lhs <=> rhs;
-    }
-    else{
-        if(lhs < rhs){
+    } else {
+        if (lhs < rhs) {
             return std::strong_ordering::less;
         }
-        if(lhs> rhs){
+        if (lhs > rhs) {
             return std::strong_ordering::greater;
         }
-        if(!(lhs < rhs) && !(lhs > rhs)){
+        if (!(lhs < rhs) && !(lhs > rhs)) {
             return std::strong_ordering::equivalent;
         }
 
-        return std::strong_ordering::equal;   
-    } 
+        return std::strong_ordering::equal;
+    }
 }
 
-
-template<typename T, typename U=T>
-using threeWayCompareCategory = 
-    decltype(threeWayCompare(std::declval<const T&>(), 
-                             std::declval<const U&>()));
-
+template <typename T, typename U = T> using threeWayCompareCategory
+    = decltype(threeWayCompare(std::declval<const T&>(), std::declval<const U&>()));
 
 namespace fun {
 
@@ -250,7 +244,8 @@ namespace fun {
          * @return true
          * @return false
          */
-        friend constexpr auto operator<=>(const Z& lhs, const Fraction& rhs) -> threeWayCompareCategory<Z> {
+        friend constexpr auto operator<=>(const Z& lhs, const Fraction& rhs)
+            -> threeWayCompareCategory<Z> {
             if (rhs._den == Z(1) || lhs == Z(0)) {
                 return threeWayCompare(lhs, rhs._num);
             }
