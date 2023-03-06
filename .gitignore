@@ -3,4 +3,5 @@
 /cpm_modules
 /.trunk
 /.cache
+/.xmake
 .DS_Store
