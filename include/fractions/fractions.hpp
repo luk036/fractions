@@ -98,17 +98,17 @@ CONSTEXPR14 auto lcm(const _Mn &__m, const _Mn &__n) -> _Mn {
  * @tparam Z
  */
 template <typename Z> struct Fraction {
-  Z _num;
-  Z _den;
+  Z _numer;
+  Z _denom;
 
   /**
    * @brief Construct a new Fraction object
    *
-   * @param[in] num
-   * @param[in] den
+   * @param[in] numer
+   * @param[in] denom
    */
-  CONSTEXPR14 Fraction(Z num, Z den)
-      : _num{std::move(num)}, _den{std::move(den)} {
+  CONSTEXPR14 Fraction(Z numer, Z denom)
+      : _numer{std::move(numer)}, _denom{std::move(denom)} {
     this->normalize();
   }
 
@@ -128,9 +128,9 @@ template <typename Z> struct Fraction {
    * denominator is always non-negative
    */
   CONSTEXPR14 void normalize1() {
-    if (this->_den < Z(0)) {
-      this->_num = -this->_num;
-      this->_den = -this->_den;
+    if (this->_denom < Z(0)) {
+      this->_numer = -this->_numer;
+      this->_denom = -this->_denom;
     }
   }
 
@@ -140,49 +140,49 @@ template <typename Z> struct Fraction {
    * denominator is always co-prime with numerator
    */
   CONSTEXPR14 auto normalize2() -> Z {
-    Z common = gcd(this->_num, this->_den);
+    Z common = gcd(this->_numer, this->_denom);
     if (common == Z(1) || common == Z(0)) {
       return common;
     }
-    this->_num /= common;
-    this->_den /= common;
+    this->_numer /= common;
+    this->_denom /= common;
     return common;
   }
 
   /**
    * @brief Construct a new Fraction object
    *
-   * @param[in] num
+   * @param[in] numer
    */
-  CONSTEXPR14 explicit Fraction(Z &&num) : _num{std::move(num)}, _den(Z(1)) {}
+  CONSTEXPR14 explicit Fraction(Z &&numer) : _numer{std::move(numer)}, _denom(Z(1)) {}
 
   /**
    * @brief Construct a new Fraction object
    *
-   * @param[in] num
+   * @param[in] numer
    */
-  CONSTEXPR14 explicit Fraction(const Z &num) : _num{num}, _den(1) {}
+  CONSTEXPR14 explicit Fraction(const Z &numer) : _numer{numer}, _denom(1) {}
 
   /**
    * @brief Construct a new Fraction object
    *
-   * @param[in] num
+   * @param[in] numer
    */
-  CONSTEXPR14 Fraction() : _num(0), _den(1) {}
+  CONSTEXPR14 Fraction() : _numer(0), _denom(1) {}
 
   /**
    * @brief
    *
    * @return const Z&
    */
-  CONSTEXPR14 auto num() const noexcept -> const Z & { return _num; }
+  CONSTEXPR14 auto numer() const noexcept -> const Z & { return _numer; }
 
   /**
    * @brief
    *
    * @return const Z&
    */
-  CONSTEXPR14 auto den() const noexcept -> const Z & { return _den; }
+  CONSTEXPR14 auto denom() const noexcept -> const Z & { return _denom; }
 
   /**
    * @brief cross product
@@ -191,7 +191,7 @@ template <typename Z> struct Fraction {
    * @return Z
    */
   CONSTEXPR14 auto cross(const Fraction &rhs) const -> Z {
-    return this->_num * rhs._den - this->_den * rhs._num;
+    return this->_numer * rhs._denom - this->_denom * rhs._numer;
   }
 
   /** @name Comparison operators
@@ -209,14 +209,14 @@ template <typename Z> struct Fraction {
    */
   friend CONSTEXPR14 auto operator==(const Fraction &lhs, const Z &rhs)
       -> bool {
-    if (lhs._den == Z(1) || rhs == Z(0)) {
-      return lhs._num == rhs;
+    if (lhs._denom == Z(1) || rhs == Z(0)) {
+      return lhs._numer == rhs;
     }
     auto lhs2{lhs};
     auto rhs2{rhs};
-    std::swap(lhs2._den, rhs2);
+    std::swap(lhs2._denom, rhs2);
     lhs2.normalize2();
-    return lhs2._num < lhs2._den * rhs2;
+    return lhs2._numer < lhs2._denom * rhs2;
   }
 
   /**
@@ -228,14 +228,14 @@ template <typename Z> struct Fraction {
    * @return false
    */
   friend CONSTEXPR14 auto operator<(const Fraction &lhs, const Z &rhs) -> bool {
-    if (lhs._den == Z(1) || rhs == Z(0)) {
-      return lhs._num < rhs;
+    if (lhs._denom == Z(1) || rhs == Z(0)) {
+      return lhs._numer < rhs;
     }
     auto lhs2{lhs};
     auto rhs2{rhs};
-    std::swap(lhs2._den, rhs2);
+    std::swap(lhs2._denom, rhs2);
     lhs2.normalize2();
-    return lhs2._num < lhs2._den * rhs2;
+    return lhs2._numer < lhs2._denom * rhs2;
   }
 
   /**
@@ -247,14 +247,14 @@ template <typename Z> struct Fraction {
    * @return false
    */
   friend CONSTEXPR14 auto operator<(const Z &lhs, const Fraction &rhs) -> bool {
-    if (rhs._den == Z(1) || lhs == Z(0)) {
-      return lhs < rhs._num;
+    if (rhs._denom == Z(1) || lhs == Z(0)) {
+      return lhs < rhs._numer;
     }
     auto lhs2{lhs};
     auto rhs2{rhs};
-    std::swap(rhs2._den, lhs2);
+    std::swap(rhs2._denom, lhs2);
     rhs2.normalize2();
-    return rhs2._den * lhs2 < rhs2._num;
+    return rhs2._denom * lhs2 < rhs2._numer;
   }
 
   /**
@@ -288,15 +288,15 @@ template <typename Z> struct Fraction {
    */
   friend CONSTEXPR14 auto operator==(const Fraction &lhs, const Fraction &rhs)
       -> bool {
-    if (lhs._den == rhs._den) {
-      return lhs._num == rhs._num;
+    if (lhs._denom == rhs._denom) {
+      return lhs._numer == rhs._numer;
     }
     auto lhs2{lhs};
     auto rhs2{rhs};
-    std::swap(lhs2._den, rhs2._num);
+    std::swap(lhs2._denom, rhs2._numer);
     lhs2.normalize2();
     rhs2.normalize2();
-    return lhs2._num * rhs2._den == lhs2._den * rhs2._num;
+    return lhs2._numer * rhs2._denom == lhs2._denom * rhs2._numer;
   }
 
   /**
@@ -309,15 +309,15 @@ template <typename Z> struct Fraction {
    */
   friend CONSTEXPR14 auto operator<(const Fraction &lhs, const Fraction &rhs)
       -> bool {
-    if (lhs._den == rhs._den) {
-      return lhs._num < rhs._num;
+    if (lhs._denom == rhs._denom) {
+      return lhs._numer < rhs._numer;
     }
     auto lhs2{lhs};
     auto rhs2{rhs};
-    std::swap(lhs2._den, rhs2._num);
+    std::swap(lhs2._denom, rhs2._numer);
     lhs2.normalize2();
     rhs2.normalize2();
-    return lhs2._num * rhs2._den < lhs2._den * rhs2._num;
+    return lhs2._numer * rhs2._denom < lhs2._denom * rhs2._numer;
   }
 
   /**
@@ -440,7 +440,7 @@ template <typename Z> struct Fraction {
    *
    */
   CONSTEXPR14 void reciprocal() {
-    std::swap(this->_num, this->_den);
+    std::swap(this->_numer, this->_denom);
     this->normalize1();
   }
 
@@ -451,11 +451,11 @@ template <typename Z> struct Fraction {
    * @return Fraction&
    */
   CONSTEXPR14 auto operator*=(Fraction rhs) -> Fraction & {
-    std::swap(this->_num, rhs._num);
+    std::swap(this->_numer, rhs._numer);
     this->normalize2();
     rhs.normalize2();
-    this->_num *= rhs._num;
-    this->_den *= rhs._den;
+    this->_numer *= rhs._numer;
+    this->_denom *= rhs._denom;
     return *this;
   }
 
@@ -478,9 +478,9 @@ template <typename Z> struct Fraction {
    * @return Fraction&
    */
   CONSTEXPR14 auto operator*=(Z rhs) -> Fraction & {
-    std::swap(this->_num, rhs);
+    std::swap(this->_numer, rhs);
     this->normalize2();
-    this->_num *= rhs;
+    this->_numer *= rhs;
     return *this;
   }
 
@@ -513,11 +513,11 @@ template <typename Z> struct Fraction {
    * @return Fraction&
    */
   CONSTEXPR14 auto operator/=(Fraction rhs) -> Fraction & {
-    std::swap(this->_den, rhs._num);
+    std::swap(this->_denom, rhs._numer);
     this->normalize();
     rhs.normalize2();
-    this->_num *= rhs._den;
-    this->_den *= rhs._num;
+    this->_numer *= rhs._denom;
+    this->_denom *= rhs._numer;
     return *this;
   }
 
@@ -540,9 +540,9 @@ template <typename Z> struct Fraction {
    * @return Fraction&
    */
   CONSTEXPR14 auto operator/=(Z rhs) -> Fraction & {
-    std::swap(this->_den, rhs);
+    std::swap(this->_denom, rhs);
     this->normalize();
-    this->_den *= rhs;
+    this->_denom *= rhs;
     return *this;
   }
 
@@ -576,7 +576,7 @@ template <typename Z> struct Fraction {
    */
   CONSTEXPR14 auto operator-() const -> Fraction {
     auto res = Fraction(*this);
-    res._num = -res._num;
+    res._numer = -res._numer;
     return res;
   }
 
@@ -587,17 +587,17 @@ template <typename Z> struct Fraction {
    * @return Fraction
    */
   CONSTEXPR14 auto operator+(const Fraction &rhs) const -> Fraction {
-    if (this->_den == rhs._den) {
-      return Fraction(this->_num + rhs._num, this->_den);
+    if (this->_denom == rhs._denom) {
+      return Fraction(this->_numer + rhs._numer, this->_denom);
     }
-    const auto common = gcd(this->_den, rhs._den);
+    const auto common = gcd(this->_denom, rhs._denom);
     if (common == Z(0)) {
-      return Fraction(rhs._den * this->_num + this->_den * rhs._num, Z(0));
+      return Fraction(rhs._denom * this->_numer + this->_denom * rhs._numer, Z(0));
     }
-    const auto l = this->_den / common;
-    const auto r = rhs._den / common;
-    auto d = this->_den * r;
-    auto n = r * this->_num + l * rhs._num;
+    const auto l = this->_denom / common;
+    const auto r = rhs._denom / common;
+    auto d = this->_denom * r;
+    auto n = r * this->_numer + l * rhs._numer;
     return Fraction(std::move(n), std::move(d));
   }
 
@@ -660,23 +660,23 @@ template <typename Z> struct Fraction {
    * @return Fraction
    */
   CONSTEXPR14 auto operator-=(const Fraction &rhs) -> Fraction & {
-    if (this->_den == rhs._den) {
-      this->_num -= rhs._num;
+    if (this->_denom == rhs._denom) {
+      this->_numer -= rhs._numer;
       this->normalize2();
       return *this;
     }
 
     auto other{rhs};
-    std::swap(this->_den, other._num);
+    std::swap(this->_denom, other._numer);
     auto common_n = this->normalize2();
     auto common_d = other.normalize2();
-    std::swap(this->_den, other._num);
-    this->_num = this->cross(other);
-    this->_den *= other._den;
-    std::swap(this->_den, common_d);
+    std::swap(this->_denom, other._numer);
+    this->_numer = this->cross(other);
+    this->_denom *= other._denom;
+    std::swap(this->_denom, common_d);
     this->normalize2();
-    this->_num *= common_n;
-    this->_den *= common_d;
+    this->_numer *= common_n;
+    this->_denom *= common_d;
     this->normalize2();
     return *this;
   }
@@ -698,17 +698,17 @@ template <typename Z> struct Fraction {
    * @return Fraction
    */
   CONSTEXPR14 auto operator-=(const Z &rhs) -> Fraction & {
-    if (this->_den == Z(1)) {
-      this->_num -= rhs;
+    if (this->_denom == Z(1)) {
+      this->_numer -= rhs;
       return *this;
     }
 
     auto other{rhs};
-    std::swap(this->_den, other);
+    std::swap(this->_denom, other);
     auto common_n = this->normalize2();
-    std::swap(this->_den, other);
-    this->_num -= other * this->_den;
-    this->_num *= common_n;
+    std::swap(this->_denom, other);
+    this->_numer -= other * this->_denom;
+    this->_numer *= common_n;
     this->normalize2();
     return *this;
   }
@@ -769,7 +769,7 @@ template <typename Z> struct Fraction {
    */
   template <typename _Stream>
   friend auto operator<<(_Stream &os, const Fraction &frac) -> _Stream & {
-    os << "(" << frac.num() << "/" << frac.den() << ")";
+    os << "(" << frac.numer() << "/" << frac.denom() << ")";
     return os;
   }
 };
